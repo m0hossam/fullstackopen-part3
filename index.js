@@ -1,12 +1,19 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const PORT = 3001;
 
 const app = express();
+
 app.use(express.json()); // IMPORTANT: This uses middleware to parse JSON request payloads, otherwise 'req.body' is underfined
 
 morgan.token('data', (req, res) => JSON.stringify(req.body)) // create custom token 'data' to be used in logs
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'));
+
+let corsOptions = {
+    origin: 'http://localhost:5173'
+}
+app.use(cors(corsOptions));
 
 
 let persons = [ // not const because we delete from it
