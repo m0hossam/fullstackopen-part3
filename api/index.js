@@ -5,6 +5,8 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
+app.use(express.static('dist')) // IMPORTANT: This uses middleware to show static content (HTML & JS in dist)
+
 app.use(express.json()); // IMPORTANT: This uses middleware to parse JSON request payloads, otherwise 'req.body' is underfined
 
 morgan.token('data', (req, res) => JSON.stringify(req.body)) // create custom token 'data' to be used in logs
