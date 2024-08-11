@@ -1,1 +1,1 @@
-DELETE http://localhost:3001/api/persons/1
+DELETE https://fullstackopen-part3-alpha.vercel.app/api/persons/1

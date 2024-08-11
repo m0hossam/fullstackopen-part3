@@ -1,4 +1,4 @@
-POST http://localhost:3001/api/persons
+POST https://fullstackopen-part3-alpha.vercel.app/api/persons
 content-type: application/json
 
 {
