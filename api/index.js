@@ -101,3 +101,5 @@ app.delete('/api/persons/:id', (req, res) => {
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
 });
+
+export default app;
