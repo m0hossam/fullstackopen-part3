@@ -7,6 +7,7 @@
     "dev": "nodemon api/index.js",
     "vercel-build": "echo Hello, world",
     "build:ui": "rm -rf dist && cd ../fullstackopen-solutions/part2/phonebook && npm run build && cp -r dist ../../../fullstackopen-part3",
+    "debug": "nodemon --inspect api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mohamed Hossam",
@@ -15,6 +16,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "mongoose": "^8.5.3",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
