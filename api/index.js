@@ -28,6 +28,9 @@ const errorHandler = (error, req, res, next) => {
     if (error.name === 'CastError') { // ID in request does not conform to Mongoose standards (e.g. shorter than minimum)
         return res.status(400).send({ error: 'Malformatted ID' });
     }
+    if (error.name === 'ValidationError') {
+        return res.status(400).send({ error: error.message });
+    }
 
     next(error); // forwards error to bult-in error handler i.e. 404 or 500 etc
 }
@@ -75,10 +78,6 @@ app.get('/api/persons/:id', (req, res, next) => {
 
 app.post('/api/persons', (req, res, next) => {
     const body = req.body;
-    
-    if (!body.name || !body.number) {
-        return res.status(400).json({ error: 'Name/Body is missing.' }); // Bad request
-    }
 
     const person = new Person({
         name: body.name,
@@ -96,19 +95,19 @@ app.post('/api/persons', (req, res, next) => {
 
 app.put('/api/persons/:id', (req, res, next) => {
     const body = req.body;
-    
-    if (!body.name || !body.number) {
-        return res.status(400).json({ error: 'Name/Body is missing.' }); // Bad request
-    }
 
     const person = { // IMPORTANT: this is a regular JS object, not a Mongoose model like in POST
         name: body.name,
         number: body.number
     };
     
-    Person.findByIdAndUpdate(req.params.id, person, { new: true }) // options: {new:true} to display updated doc
+    Person.findByIdAndUpdate(req.params.id, person, { new: true, runValidators: true, context: 'query'}) // display updated doc, run update validators, use query context not global object
         .then(updatedPerson => {
-            res.json(updatedPerson);
+            if (updatedPerson) {
+                res.json(updatedPerson);
+            } else {
+                res.status(404).end();
+            }
         })
         .catch(error => {
             next(error);
@@ -117,8 +116,12 @@ app.put('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
     Person.findByIdAndDelete(req.params.id)
-        .then(result => {
-            res.status(204).end(); // No content
+        .then(deletedPerson => {
+            if (deletedPerson) {
+                res.status(204).end(); // No content
+            } else {
+                res.status(404).end();
+            }
         })
         .catch(error => {
             next(error);

@@ -7,8 +7,22 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(error => { console.log(`Error connecting to MongoDB: ${error.message}`) });
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String
+    name: {
+        type: String,
+        minLength: [3, 'Name must be atleast 3 characters long'],
+        required: [true, 'Name required.']
+    },
+    number: {
+        type: String,
+        minLength: [8, 'Phone number must be atleast 8 characters long'],
+        validate: {
+            validator: (num) => {
+              return /^\d{2,3}-[0-9]+$/.test(num); // TODO: Test this more, I don't fully udnerstand RegEx yet lol
+            },
+            message: 'Phone number must consist of 2 or 3 digits followed by a dash followed by digits'
+        },
+        required: [true, 'Phone number required.']
+    }
 });
 
 personSchema.set('toJSON', { // customize MongoDB format for the models

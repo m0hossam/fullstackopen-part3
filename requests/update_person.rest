@@ -1,0 +1,7 @@
+PUT http://localhost:3001/api/persons/66be39968398effe75ea2758
+content-type: application/json
+
+{
+    "name": "Abo Cartoona",
+    "number": "0-777-5000"
+}
