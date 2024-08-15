@@ -1,7 +1,7 @@
-POST https://fullstackopen-part3-alpha.vercel.app/api/persons
+POST http://localhost:3001/api/persons
 content-type: application/json
 
 {
-    "name": "Mohamed Hossam",
+    "name": "Abo Cartoona",
     "number": "07775000"
 }
