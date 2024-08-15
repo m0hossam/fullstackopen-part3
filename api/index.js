@@ -94,6 +94,27 @@ app.post('/api/persons', (req, res, next) => {
         });
 });
 
+app.put('/api/persons/:id', (req, res, next) => {
+    const body = req.body;
+    
+    if (!body.name || !body.number) {
+        return res.status(400).json({ error: 'Name/Body is missing.' }); // Bad request
+    }
+
+    const person = { // IMPORTANT: this is a regular JS object, not a Mongoose model like in POST
+        name: body.name,
+        number: body.number
+    };
+    
+    Person.findByIdAndUpdate(req.params.id, person, { new: true }) // options: {new:true} to display updated doc
+        .then(updatedPerson => {
+            res.json(updatedPerson);
+        })
+        .catch(error => {
+            next(error);
+        })
+});
+
 app.delete('/api/persons/:id', (req, res, next) => {
     Person.findByIdAndDelete(req.params.id)
         .then(result => {
