@@ -8,6 +8,7 @@
     "vercel-build": "echo Hello, world",
     "build:ui": "rm -rf dist && cd ../fullstackopen-solutions/part2/phonebook && npm run build && cp -r dist ../../../fullstackopen-part3",
     "debug": "nodemon --inspect api/index.js",
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mohamed Hossam",
@@ -21,6 +22,10 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@stylistic/eslint-plugin-js": "^2.6.3",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
     "nodemon": "^3.1.4"
   }
 }
